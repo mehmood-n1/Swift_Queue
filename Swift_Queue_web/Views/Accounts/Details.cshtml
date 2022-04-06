@@ -1,0 +1,61 @@
+﻿@model Swift_Queue_web.Models.Account
+
+@{
+    ViewBag.Title = "Details";
+    var password = Swift_Queue_web.Utills.Data.DecryptString(Model.Account_password);
+
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Account</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Account_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Account_Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account_Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Account_password)
+        </dt>
+
+        <dd>
+           @password
+        </dd>
+
+        
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Account_Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account_Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAdmin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsAdmin)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Acciunt_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

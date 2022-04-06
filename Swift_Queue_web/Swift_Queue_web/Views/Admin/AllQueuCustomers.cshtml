@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Swift_Queue_web.Models.Queue>
+
+@{
+    ViewBag.Title = "AllQueuCustomers";
+}
+
+<h2>AllQueuCustomers</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Queue_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Party_size)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.Customer_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Queue_Setting.Id)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Queue_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Party_size)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer.Customer_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Queue_Setting.Id)
+        </td>
+       
+    </tr>
+}
+
+</table>

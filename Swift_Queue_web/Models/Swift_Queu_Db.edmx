@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Swift_QueueModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="Acciunt_id" />
+          </Key>
+          <Property Name="Acciunt_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Account_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Account_Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Account_password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Account_Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Customer_id" />
+          </Key>
+          <Property Name="Customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Customer_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Customer_Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Customer_password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Customer_Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="Notification_id" />
+          </Key>
+          <Property Name="Notification_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Notification" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="customer_fid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Queue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customer_fid" Type="int" Nullable="false" />
+          <Property Name="Queue_no" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Party_size" Type="int" Nullable="false" />
+          <Property Name="Queue_fid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Queue_Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Queue_CreatedDatetime" Type="datetime" Nullable="false" />
+          <Property Name="Queue_size" Type="int" Nullable="false" />
+          <Property Name="Arrival_time_mint" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Acc_fid" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Notification_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Customer_id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="customer_fid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Queue_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Queue" Type="Self.Queue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Customer_id" />
+            </Principal>
+            <Dependent Role="Queue">
+              <PropertyRef Name="customer_fid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Queue_Queue_Setting">
+          <End Role="Queue_Setting" Type="Self.Queue_Setting" Multiplicity="1" />
+          <End Role="Queue" Type="Self.Queue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Queue_Setting">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Queue">
+              <PropertyRef Name="Queue_fid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Queue_Setting_Accounts">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+          <End Role="Queue_Setting" Type="Self.Queue_Setting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Acciunt_id" />
+            </Principal>
+            <Dependent Role="Queue_Setting">
+              <PropertyRef Name="Acc_fid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Swift_QueueModelStoreContainer">
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Queue" EntityType="Self.Queue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Queue_Setting" EntityType="Self.Queue_Setting" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Notification_Customer" Association="Self.FK_Notification_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Queue_Customer" Association="Self.FK_Queue_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Queue" EntitySet="Queue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Queue_Queue_Setting" Association="Self.FK_Queue_Queue_Setting">
+            <End Role="Queue_Setting" EntitySet="Queue_Setting" />
+            <End Role="Queue" EntitySet="Queue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Queue_Setting_Accounts" Association="Self.FK_Queue_Setting_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Queue_Setting" EntitySet="Queue_Setting" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Swift_QueueModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Acciunt_id" />
+          </Key>
+          <Property Name="Acciunt_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Account_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Account_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Account_password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Account_Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Queue_Setting" Relationship="Self.FK_Queue_Setting_Accounts" FromRole="Accounts" ToRole="Queue_Setting" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Customer_id" />
+          </Key>
+          <Property Name="Customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Customer_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Customer_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Customer_password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Customer_Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Notifications" Relationship="Self.FK_Notification_Customer" FromRole="Customer" ToRole="Notification" />
+          <NavigationProperty Name="Queues" Relationship="Self.FK_Queue_Customer" FromRole="Customer" ToRole="Queue" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="Notification_id" />
+          </Key>
+          <Property Name="Notification_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Notification1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customer_fid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Notification_Customer" FromRole="Notification" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="Queue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer_fid" Type="Int32" Nullable="false" />
+          <Property Name="Queue_no" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Party_size" Type="Int32" Nullable="false" />
+          <Property Name="Queue_fid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Queue_Customer" FromRole="Queue" ToRole="Customer" />
+          <NavigationProperty Name="Queue_Setting" Relationship="Self.FK_Queue_Queue_Setting" FromRole="Queue" ToRole="Queue_Setting" />
+        </EntityType>
+        <EntityType Name="Queue_Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Queue_CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Queue_size" Type="Int32" Nullable="false" />
+          <Property Name="Arrival_time_mint" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Acc_fid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_Queue_Setting_Accounts" FromRole="Queue_Setting" ToRole="Accounts" />
+          <NavigationProperty Name="Queues" Relationship="Self.FK_Queue_Queue_Setting" FromRole="Queue_Setting" ToRole="Queue" />
+        </EntityType>
+        <Association Name="FK_Queue_Setting_Accounts">
+          <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
+          <End Role="Queue_Setting" Type="Self.Queue_Setting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Acciunt_id" />
+            </Principal>
+            <Dependent Role="Queue_Setting">
+              <PropertyRef Name="Acc_fid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notification_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Customer_id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="customer_fid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Queue_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Queue" Type="Self.Queue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Customer_id" />
+            </Principal>
+            <Dependent Role="Queue">
+              <PropertyRef Name="customer_fid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Queue_Queue_Setting">
+          <End Role="Queue_Setting" Type="Self.Queue_Setting" Multiplicity="1" />
+          <End Role="Queue" Type="Self.Queue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Queue_Setting">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Queue">
+              <PropertyRef Name="Queue_fid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Swift_Queue_Db" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Notifications" EntityType="Self.Notification" />
+          <EntitySet Name="Queues" EntityType="Self.Queue" />
+          <EntitySet Name="Queue_Setting" EntityType="Self.Queue_Setting" />
+          <AssociationSet Name="FK_Queue_Setting_Accounts" Association="Self.FK_Queue_Setting_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Queue_Setting" EntitySet="Queue_Setting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notification_Customer" Association="Self.FK_Notification_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Queue_Customer" Association="Self.FK_Queue_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Queue" EntitySet="Queues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Queue_Queue_Setting" Association="Self.FK_Queue_Queue_Setting">
+            <End Role="Queue_Setting" EntitySet="Queue_Setting" />
+            <End Role="Queue" EntitySet="Queues" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Swift_QueueModelStoreContainer" CdmEntityContainer="Swift_Queue_Db">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="Swift_QueueModel.Account">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="Acciunt_id" ColumnName="Acciunt_id" />
+                <ScalarProperty Name="Account_Name" ColumnName="Account_Name" />
+                <ScalarProperty Name="Account_Email" ColumnName="Account_Email" />
+                <ScalarProperty Name="Account_password" ColumnName="Account_password" />
+                <ScalarProperty Name="Account_Phone" ColumnName="Account_Phone" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="Swift_QueueModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Customer_id" ColumnName="Customer_id" />
+                <ScalarProperty Name="Customer_Name" ColumnName="Customer_Name" />
+                <ScalarProperty Name="Customer_Email" ColumnName="Customer_Email" />
+                <ScalarProperty Name="Customer_password" ColumnName="Customer_password" />
+                <ScalarProperty Name="Customer_Phone" ColumnName="Customer_Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="Swift_QueueModel.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="Notification_id" ColumnName="Notification_id" />
+                <ScalarProperty Name="Notification1" ColumnName="Notification" />
+                <ScalarProperty Name="customer_fid" ColumnName="customer_fid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Queues">
+            <EntityTypeMapping TypeName="Swift_QueueModel.Queue">
+              <MappingFragment StoreEntitySet="Queue">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="customer_fid" ColumnName="customer_fid" />
+                <ScalarProperty Name="Queue_no" ColumnName="Queue_no" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Party_size" ColumnName="Party_size" />
+                <ScalarProperty Name="Queue_fid" ColumnName="Queue_fid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Queue_Setting">
+            <EntityTypeMapping TypeName="Swift_QueueModel.Queue_Setting">
+              <MappingFragment StoreEntitySet="Queue_Setting">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Queue_CreatedDatetime" ColumnName="Queue_CreatedDatetime" />
+                <ScalarProperty Name="Queue_size" ColumnName="Queue_size" />
+                <ScalarProperty Name="Arrival_time_mint" ColumnName="Arrival_time_mint" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Acc_fid" ColumnName="Acc_fid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

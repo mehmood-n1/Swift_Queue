@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Swift_Queue_web.Models.Queue_Setting>
+
+@{
+    ViewBag.Title = "AdminIndex";
+}
+
+<h2>AdminIndex</h2>
+
+<p>
+    @Html.ActionLink("Create New", "GenrateNewQueue")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Queue_CreatedDatetime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Queue_size)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Arrival_time_mint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Account.Account_Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Queue_CreatedDatetime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Queue_size)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Arrival_time_mint)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Account.Account_Name)
+        </td>
+        <td>
+            <a href="@Url.Action("AllQueuActiveCustomers","Admin",new { id=item.Id})" class="btn btn-success">All Queu Customers</a>
+
+        
+            <a href="@Url.Action("EndQueue","Admin",new { id=item.Id})" class="btn btn-danger">End Queue</a>
+        </td>
+    </tr>
+}
+
+</table>

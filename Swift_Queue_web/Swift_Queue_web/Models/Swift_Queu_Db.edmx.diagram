@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="93ab47a79d384addbe326c21fe6c082b" Name="Diagram1">
+        <EntityTypeShape EntityType="Swift_QueueModel.Account" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Swift_QueueModel.Customer" Width="1.5" PointX="2.875" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Swift_QueueModel.Notification" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Swift_QueueModel.Queue" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Swift_QueueModel.Queue_Setting" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="Swift_QueueModel.FK_Queue_Setting_Accounts" ManuallyRouted="false" />
+        <AssociationConnector Association="Swift_QueueModel.FK_Notification_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="Swift_QueueModel.FK_Queue_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="Swift_QueueModel.FK_Queue_Queue_Setting" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,20 @@
+﻿@model Swift_Queue_web.Models.Queue
+@using Swift_Queue_web.Models
+@using Swift_Queue_web.Utills
+@{
+    Swift_Queue_Db db = new Swift_Queue_Db();
+    var proceedingCustomer = db.Queues.FirstOrDefault(x => x.Queue_Setting.Status == (int)QueueStatus.Active && x.Status == (int)CustomerStatus.Proceed);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@section Metatags{
+    
+    <meta http-equiv="refresh" content="30">
+    }
+<div class="text-center">
+    
+    <h2>Your Queue Number</h2>
+    <h2>@Model.Queue_no</h2>
+     
+</div>
+
